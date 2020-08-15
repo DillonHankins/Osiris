@@ -13,7 +13,7 @@ namespace Misc
     void updateClanTag(bool = false) noexcept;
     void spectatorList() noexcept;
     void noscopeCrosshair(ImDrawList* drawlist) noexcept;
-    void recoilCrosshair() noexcept;
+    void recoilCrosshair(ImDrawList* drawList) noexcept;
     void watermark() noexcept;
     void prepareRevolver(UserCmd*) noexcept;
     void fastPlant(UserCmd*) noexcept;
@@ -33,7 +33,6 @@ namespace Misc
     void antiAfkKick(UserCmd* cmd) noexcept;
     void fixAnimationLOD(FrameStage stage) noexcept;
     void autoPistol(UserCmd* cmd) noexcept;
-    void chokePackets(bool& sendPacket) noexcept;
     void autoReload(UserCmd* cmd) noexcept;
     void revealRanks(UserCmd* cmd) noexcept;
     void autoStrafe(UserCmd* cmd) noexcept;
@@ -42,4 +41,9 @@ namespace Misc
     void playHitSound(GameEvent& event) noexcept;
     void killSound(GameEvent& event) noexcept;
     void purchaseList(GameEvent* event = nullptr) noexcept;
+    void StatusBar() noexcept;
+    void DrawInaccuracy(ImDrawList* draw) noexcept;
+	 void fakeDuck(UserCmd* cmd, bool& sendPacket) noexcept;
+    float RandomFloat(float min, float max) noexcept;
+    void chokePackets(bool& sendPacket, UserCmd* cmd) noexcept;
 }

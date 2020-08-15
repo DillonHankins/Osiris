@@ -32,14 +32,13 @@ void Backtrack::update(FrameStage stage) noexcept
 
             Record record{ };
             record.origin = entity->getAbsOrigin();
-            record.head = entity->getBonePosition(8);
             record.simulationTime = entity->simulationTime();
 
             entity->setupBones(record.matrix, 256, 0x7FF00, memory->globalVars->currenttime);
 
             records[i].push_front(record);
-            int timeLimit = config->backtrack.timeLimit; if (timeLimit > 200) timeLimit = 200;
-            while (records[i].size() > 3 && records[i].size() > static_cast<size_t>(timeToTicks(static_cast<float>(timeLimit) / 1000.f + getExtraTicks())))
+
+            while (records[i].size() > 3 && records[i].size() > static_cast<size_t>(timeToTicks(static_cast<float>(config->backtrack.timeLimit) / 1000.f + getExtraTicks())))
                 records[i].pop_back();
 
             if (auto invalid = std::find_if(std::cbegin(records[i]), std::cend(records[i]), [](const Record & rec) { return !valid(rec.simulationTime); }); invalid != std::cend(records[i]))
@@ -57,7 +56,7 @@ void Backtrack::run(UserCmd* cmd) noexcept
         return;
 
     if (!(cmd->buttons & UserCmd::IN_ATTACK))
-        return;
+		return;
 
     auto localPlayerEyePosition = localPlayer->getEyePosition();
 
@@ -65,7 +64,7 @@ void Backtrack::run(UserCmd* cmd) noexcept
     Entity * bestTarget{ };
     int bestTargetIndex{ };
     Vector bestTargetOrigin{ };
-    Vector bestTargetHead{ };
+	  Vector bestTargetHead{ };
     int bestRecord{ };
 
     const auto aimPunch = localPlayer->getAimPunch();
@@ -77,7 +76,8 @@ void Backtrack::run(UserCmd* cmd) noexcept
             continue;
 
         auto origin = entity->getAbsOrigin();
-        auto head = entity->getBonePosition(8);
+    	auto head = entity->getBonePosition(8);
+    	
 
         auto angle = Aimbot::calculateRelativeAngle(localPlayerEyePosition, head, cmd->viewangles + (config->backtrack.recoilBasedFov ? aimPunch : Vector{ }));
         auto fov = std::hypotf(angle.x, angle.y);
@@ -96,7 +96,7 @@ void Backtrack::run(UserCmd* cmd) noexcept
         bestFov = 255.f;
 
         for (size_t i = 0; i < records[bestTargetIndex].size(); i++) {
-            auto& record = records[bestTargetIndex][i];
+            const auto& record = records[bestTargetIndex][i];
             if (!valid(record.simulationTime))
                 continue;
 
@@ -110,9 +110,9 @@ void Backtrack::run(UserCmd* cmd) noexcept
     }
 
     if (bestRecord) {
-        auto record = records[bestTargetIndex][bestRecord];
+        const auto& record = records[bestTargetIndex][bestRecord];
         memory->setAbsOrigin(bestTarget, record.origin);
-        cmd->tickCount = timeToTicks(record.simulationTime);
+        cmd->tickCount = timeToTicks(record.simulationTime + getLerp());
     }
 }
 
@@ -133,8 +133,7 @@ void Backtrack::UpdateIncomingSequences(bool reset) noexcept
 {
     static float lastIncomingSequenceNumber = 0.f;
 
-    int timeLimit = config->backtrack.timeLimit; if (timeLimit <= 200) { timeLimit = 0; } else { timeLimit -= 200; }
-    if (!config->backtrack.fakeLatency || timeLimit == 0)
+    if (!config->backtrack.fakeLatency || config->backtrack.timeLimit == 0)
         return;
 
     if (!localPlayer)
@@ -154,7 +153,7 @@ void Backtrack::UpdateIncomingSequences(bool reset) noexcept
         sequence.servertime = memory->globalVars->serverTime();
         sequences.push_front(sequence);
     }
-    
+
     while (sequences.size() > 2048)
         sequences.pop_back();
 }
