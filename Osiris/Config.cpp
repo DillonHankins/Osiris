@@ -11,8 +11,157 @@ int CALLBACK fontCallback(const LOGFONTA* lpelfe, const TEXTMETRICA*, DWORD, LPA
 {
     const auto fontName = (const char*)reinterpret_cast<const ENUMLOGFONTEXA*>(lpelfe)->elfFullName;
 
+<<<<<<< HEAD
     if (fontName[0] == '@')
         return TRUE;
+<<<<<<< Updated upstream
+=======
+=======
+    for (size_t i = 0; i < aimbot.size(); i++) {
+        const auto& aimbotJson = json["Aimbot"][i];
+        auto& aimbotConfig = aimbot[i];
+
+        if (aimbotJson.isMember("Enabled")) aimbotConfig.enabled = aimbotJson["Enabled"].asBool();
+        if (aimbotJson.isMember("On key")) aimbotConfig.onKey = aimbotJson["On key"].asBool();
+        if (aimbotJson.isMember("Key")) aimbotConfig.key = aimbotJson["Key"].asInt();
+        if (aimbotJson.isMember("Key mode")) aimbotConfig.keyMode = aimbotJson["Key mode"].asInt();
+        if (aimbotJson.isMember("Aimlock")) aimbotConfig.aimlock = aimbotJson["Aimlock"].asBool();
+        if (aimbotJson.isMember("Silent")) aimbotConfig.silent = aimbotJson["Silent"].asBool();
+        if (aimbotJson.isMember("Friendly fire")) aimbotConfig.friendlyFire = aimbotJson["Friendly fire"].asBool();
+        if (aimbotJson.isMember("Visible only")) aimbotConfig.visibleOnly = aimbotJson["Visible only"].asBool();
+        if (aimbotJson.isMember("Scoped only")) aimbotConfig.scopedOnly = aimbotJson["Scoped only"].asBool();
+        if (aimbotJson.isMember("Ignore flash")) aimbotConfig.ignoreFlash = aimbotJson["Ignore flash"].asBool();
+        if (aimbotJson.isMember("Ignore smoke")) aimbotConfig.ignoreSmoke = aimbotJson["Ignore smoke"].asBool();
+        if (aimbotJson.isMember("Auto shot")) aimbotConfig.autoShot = aimbotJson["Auto shot"].asBool();
+        if (aimbotJson.isMember("Auto scope")) aimbotConfig.autoScope = aimbotJson["Auto scope"].asBool();
+        if (aimbotJson.isMember("Fov")) aimbotConfig.fov = aimbotJson["Fov"].asFloat();
+        if (aimbotJson.isMember("Smooth")) aimbotConfig.smooth = aimbotJson["Smooth"].asFloat();
+        if (aimbotJson.isMember("Bone")) aimbotConfig.bone = aimbotJson["Bone"].asInt();
+        if (aimbotJson.isMember("Max aim inaccuracy")) aimbotConfig.maxAimInaccuracy = aimbotJson["Max aim inaccuracy"].asFloat();
+        if (aimbotJson.isMember("Max shot inaccuracy")) aimbotConfig.maxShotInaccuracy = aimbotJson["Max shot inaccuracy"].asFloat();
+        if (aimbotJson.isMember("Min damage")) aimbotConfig.minDamage = aimbotJson["Min damage"].asInt();
+        if (aimbotJson.isMember("Killshot")) aimbotConfig.killshot = aimbotJson["Killshot"].asBool();
+        if (aimbotJson.isMember("Between shots")) aimbotConfig.betweenShots = aimbotJson["Between shots"].asBool();
+    }
+
+    for (size_t i = 0; i < triggerbot.size(); i++) {
+        const auto& triggerbotJson = json["Triggerbot"][i];
+        auto& triggerbotConfig = triggerbot[i];
+
+        if (triggerbotJson.isMember("Enabled")) triggerbotConfig.enabled = triggerbotJson["Enabled"].asBool();
+        if (triggerbotJson.isMember("On key")) triggerbotConfig.onKey = triggerbotJson["On key"].asBool();
+        if (triggerbotJson.isMember("Key")) triggerbotConfig.key = triggerbotJson["Key"].asInt();
+        if (triggerbotJson.isMember("Friendly fire")) triggerbotConfig.friendlyFire = triggerbotJson["Friendly fire"].asBool();
+        if (triggerbotJson.isMember("Scoped only")) triggerbotConfig.scopedOnly = triggerbotJson["Scoped only"].asBool();
+        if (triggerbotJson.isMember("Ignore flash")) triggerbotConfig.ignoreFlash = triggerbotJson["Ignore flash"].asBool();
+        if (triggerbotJson.isMember("Ignore smoke")) triggerbotConfig.ignoreSmoke = triggerbotJson["Ignore smoke"].asBool();
+        if (triggerbotJson.isMember("Hitgroup")) triggerbotConfig.hitgroup = triggerbotJson["Hitgroup"].asInt();
+        if (triggerbotJson.isMember("Shot delay")) triggerbotConfig.shotDelay = triggerbotJson["Shot delay"].asInt();
+        if (triggerbotJson.isMember("Min damage")) triggerbotConfig.minDamage = triggerbotJson["Min damage"].asInt();
+        if (triggerbotJson.isMember("Killshot")) triggerbotConfig.killshot = triggerbotJson["Killshot"].asBool();
+        if (triggerbotJson.isMember("Burst Time")) triggerbotConfig.burstTime = triggerbotJson["Burst Time"].asFloat();
+    }
+
+    {
+        const auto& backtrackJson = json["Backtrack"];
+        if (backtrackJson.isMember("Enabled")) backtrack.enabled = backtrackJson["Enabled"].asBool();
+        if (backtrackJson.isMember("Ignore smoke")) backtrack.ignoreSmoke = backtrackJson["Ignore smoke"].asBool();
+        if (backtrackJson.isMember("Recoil based fov")) backtrack.recoilBasedFov = backtrackJson["Recoil based fov"].asBool();
+        if (backtrackJson.isMember("Time limit")) backtrack.timeLimit = backtrackJson["Time limit"].asInt();
+    }
+
+    {
+        const auto& antiAimJson = json["Anti aim"];
+        {
+            const auto& generalAAJson = json["Anti aim"]["General"];
+            if (generalAAJson.isMember("Enabled")) config->antiAim.general.enabled = generalAAJson["Enabled"].asBool();
+            if (generalAAJson.isMember("Inverse Yaw Key")) config->antiAim.general.yawInverseAngleKey = generalAAJson["Inverse Yaw Key"].asInt();
+            if (generalAAJson.isMember("Inverse Yaw Key Mode")) config->antiAim.general.yawInverseKeyMode = generalAAJson["Inverse Yaw Key Mode"].asInt();
+
+            {
+                const auto& fakeWalkJson = json["Anti aim"]["General"]["Fakewalk"];
+                if (fakeWalkJson.isMember("Enabled")) config->antiAim.general.fakeWalk.enabled = fakeWalkJson["Enabled"].asBool();
+                if (fakeWalkJson.isMember("Fakewalk Key")) antiAim.general.fakeWalk.key = fakeWalkJson["Fakewalk Key"].asInt();
+                if (fakeWalkJson.isMember("Fakewalk Key Mode")) antiAim.general.fakeWalk.keyMode = fakeWalkJson["Fakewalk Key Mode"].asInt();
+                if (fakeWalkJson.isMember("Fakewalk Max Choke")) antiAim.general.fakeWalk.maxChoke = fakeWalkJson["Fakewalk Max Choke"].asInt();
+            }
+        }
+
+        {
+            const auto& standingAAJson = json["Anti aim"]["Standing"];
+            if (standingAAJson.isMember("Enabled")) config->antiAim.standing.enabled = standingAAJson["Enabled"].asBool();
+            if (standingAAJson.isMember("Pitch Enabled")) config->antiAim.standing.pitch.enabled = standingAAJson["Pitch Enabled"].asBool();
+            if (standingAAJson.isMember("Pitch Angle")) config->antiAim.standing.pitch.angle = standingAAJson["Pitch Angle"].asFloat();
+            if (standingAAJson.isMember("Yaw Enabled")) config->antiAim.standing.yaw.enabled = standingAAJson["Yaw Enabled"].asBool();
+            if (standingAAJson.isMember("Yaw Angle")) config->antiAim.standing.yaw.angle = standingAAJson["Yaw Angle"].asFloat();
+            if (standingAAJson.isMember("Yaw Fake Mode")) config->antiAim.standing.yaw.fake.mode = standingAAJson["Yaw Fake Mode"].asInt();
+            if (standingAAJson.isMember("Yaw Fake Step")) config->antiAim.standing.yaw.fake.step = standingAAJson["Yaw Fake Step"].asFloat();
+            if (standingAAJson.isMember("Yaw Fake Jitter Min")) config->antiAim.standing.yaw.fake.jitterMin = standingAAJson["Yaw Fake Jitter Min"].asFloat();
+            if (standingAAJson.isMember("Yaw Fake Jitter Max")) config->antiAim.standing.yaw.fake.jitterMax = standingAAJson["Yaw Fake Jitter Max"].asFloat();
+
+            if (standingAAJson.isMember("Yaw Desync Enabled")) config->antiAim.standing.yaw.desync.enabled = standingAAJson["Yaw Desync Enabled"].asBool();
+            if (standingAAJson.isMember("Yaw Desync Body Lean")) config->antiAim.standing.yaw.desync.bodyLean = standingAAJson["Yaw Desync Body Lean"].asFloat();
+            if (standingAAJson.isMember("Yaw Desync Mode")) config->antiAim.standing.yaw.desync.mode = standingAAJson["Yaw Desync Mode"].asInt();
+            if (standingAAJson.isMember("Yaw Desync Step")) config->antiAim.standing.yaw.desync.step = standingAAJson["Yaw Desync Step"].asFloat();
+            if (standingAAJson.isMember("Yaw Desync Jitter Min")) config->antiAim.standing.yaw.desync.jitterMin = standingAAJson["Yaw Desync Jitter Min"].asFloat();
+            if (standingAAJson.isMember("Yaw Desync Jitter Max")) config->antiAim.standing.yaw.desync.jitterMax = standingAAJson["Yaw Desync Jitter Max"].asFloat();
+
+            if (standingAAJson.isMember("LBY Breaker Enabled")) config->antiAim.standing.yaw.desync.LBYBreaker.enabled = standingAAJson["LBY Breaker Enabled"].asBool();
+            if (standingAAJson.isMember("LBY Breaker Angle")) config->antiAim.standing.yaw.desync.LBYBreaker.angle = standingAAJson["LBY Breaker Angle"].asFloat();
+        }
+
+        {
+            const auto& movingAAJson = json["Anti aim"]["Moving"];
+            if (movingAAJson.isMember("Enabled")) config->antiAim.moving.enabled = movingAAJson["Enabled"].asBool();
+            if (movingAAJson.isMember("Pitch Enabled")) config->antiAim.moving.pitch.enabled = movingAAJson["Pitch Enabled"].asBool();
+            if (movingAAJson.isMember("Pitch Angle")) config->antiAim.moving.pitch.angle = movingAAJson["Pitch Angle"].asFloat();
+            if (movingAAJson.isMember("Yaw Enabled")) config->antiAim.moving.yaw.enabled = movingAAJson["Yaw Enabled"].asBool();
+            if (movingAAJson.isMember("Yaw Angle")) config->antiAim.moving.yaw.angle = movingAAJson["Yaw Angle"].asFloat();
+            if (movingAAJson.isMember("Yaw Fake Mode")) config->antiAim.moving.yaw.fake.mode = movingAAJson["Yaw Fake Mode"].asInt();
+            if (movingAAJson.isMember("Yaw Fake Step")) config->antiAim.moving.yaw.fake.step = movingAAJson["Yaw Fake Step"].asFloat();
+            if (movingAAJson.isMember("Yaw Fake Jitter Min")) config->antiAim.moving.yaw.fake.jitterMin = movingAAJson["Yaw Fake Jitter Min"].asFloat();
+            if (movingAAJson.isMember("Yaw Fake Jitter Max")) config->antiAim.moving.yaw.fake.jitterMax = movingAAJson["Yaw Fake Jitter Max"].asFloat();
+
+            if (movingAAJson.isMember("Yaw Desync Enabled")) config->antiAim.moving.yaw.desync.enabled = movingAAJson["Yaw Desync Enabled"].asBool();
+            if (movingAAJson.isMember("Yaw Desync Body Lean")) config->antiAim.moving.yaw.desync.bodyLean = movingAAJson["Yaw Desync Body Lean"].asFloat();
+            if (movingAAJson.isMember("Yaw Desync Mode")) config->antiAim.moving.yaw.desync.mode = movingAAJson["Yaw Desync Mode"].asInt();
+            if (movingAAJson.isMember("Yaw Desync Step")) config->antiAim.moving.yaw.desync.step = movingAAJson["Yaw Desync Step"].asFloat();
+            if (movingAAJson.isMember("Yaw Desync Jitter Min")) config->antiAim.moving.yaw.desync.jitterMin = movingAAJson["Yaw Desync Jitter Min"].asFloat();
+            if (movingAAJson.isMember("Yaw Desync Jitter Max")) config->antiAim.moving.yaw.desync.jitterMax = movingAAJson["Yaw Desync Jitter Max"].asFloat();
+
+            if (movingAAJson.isMember("LBY Breaker Enabled")) config->antiAim.moving.yaw.desync.LBYBreaker.enabled = movingAAJson["LBY Breaker Enabled"].asBool();
+            if (movingAAJson.isMember("LBY Breaker Angle")) config->antiAim.moving.yaw.desync.LBYBreaker.angle = movingAAJson["LBY Breaker Angle"].asFloat();
+        }
+
+        {
+            const auto& inAirAAJson = json["Anti aim"]["In Air"];
+            if (inAirAAJson.isMember("Enabled")) config->antiAim.inAir.enabled = inAirAAJson["Enabled"].asBool();
+            if (inAirAAJson.isMember("Pitch Enabled")) config->antiAim.inAir.pitch.enabled = inAirAAJson["Pitch Enabled"].asBool();
+            if (inAirAAJson.isMember("Pitch Angle")) config->antiAim.inAir.pitch.angle = inAirAAJson["Pitch Angle"].asFloat();
+            if (inAirAAJson.isMember("Yaw Enabled")) config->antiAim.inAir.yaw.enabled = inAirAAJson["Yaw Enabled"].asBool();
+            if (inAirAAJson.isMember("Yaw Angle")) config->antiAim.inAir.yaw.angle = inAirAAJson["Yaw Angle"].asFloat();
+            if (inAirAAJson.isMember("Yaw Fake Mode")) config->antiAim.inAir.yaw.fake.mode = inAirAAJson["Yaw Fake Mode"].asInt();
+            if (inAirAAJson.isMember("Yaw Fake Step")) config->antiAim.inAir.yaw.fake.step = inAirAAJson["Yaw Fake Step"].asFloat();
+            if (inAirAAJson.isMember("Yaw Fake Jitter Min")) config->antiAim.inAir.yaw.fake.jitterMin = inAirAAJson["Yaw Fake Jitter Min"].asFloat();
+            if (inAirAAJson.isMember("Yaw Fake Jitter Max")) config->antiAim.inAir.yaw.fake.jitterMax = inAirAAJson["Yaw Fake Jitter Max"].asFloat();
+
+            if (inAirAAJson.isMember("Yaw Desync Enabled")) config->antiAim.inAir.yaw.desync.enabled = inAirAAJson["Yaw Desync Enabled"].asBool();
+            if (inAirAAJson.isMember("Yaw Desync Body Lean")) config->antiAim.inAir.yaw.desync.bodyLean = inAirAAJson["Yaw Desync Body Lean"].asFloat();
+            if (inAirAAJson.isMember("Yaw Desync Mode")) config->antiAim.inAir.yaw.desync.mode = inAirAAJson["Yaw Desync Mode"].asInt();
+            if (inAirAAJson.isMember("Yaw Desync Step")) config->antiAim.inAir.yaw.desync.step = inAirAAJson["Yaw Desync Step"].asFloat();
+            if (inAirAAJson.isMember("Yaw Desync Jitter Min")) config->antiAim.inAir.yaw.desync.jitterMin = inAirAAJson["Yaw Desync Jitter Min"].asFloat();
+            if (inAirAAJson.isMember("Yaw Desync Jitter Max")) config->antiAim.inAir.yaw.desync.jitterMax = inAirAAJson["Yaw Desync Jitter Max"].asFloat();
+
+            if (inAirAAJson.isMember("LBY Breaker Enabled")) config->antiAim.inAir.yaw.desync.LBYBreaker.enabled = inAirAAJson["LBY Breaker Enabled"].asBool();
+            if (inAirAAJson.isMember("LBY Breaker Angle")) config->antiAim.inAir.yaw.desync.LBYBreaker.angle = inAirAAJson["LBY Breaker Angle"].asFloat();
+        }
+    }
+
+    for (size_t i = 0; i < glow.size(); i++) {
+        const auto& glowJson = json["glow"][i];
+        auto& glowConfig = glow[i];
+>>>>>>> pr/1546
+>>>>>>> Stashed changes
 
     if (HFONT font = CreateFontA(0, 0, 0, 0,
         FW_NORMAL, FALSE, FALSE, FALSE,
